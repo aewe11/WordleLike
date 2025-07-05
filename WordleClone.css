@@ -30,34 +30,62 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  width: 100%;
+  max-width: 500px;
 }
 .keyboard-row {
   display: flex;
   flex-direction: row;
   gap: 6px;
+  width: 100%;
+  justify-content: center;
 }
 .key {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 54px;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 48px;
   margin: 0;
   padding: 0;
   background: #eee;
   border: 1px solid #bbb;
   border-radius: 6px;
-  font-size: 18px;
+  font-size: 4vw;
+  max-font-size: 18px;
   font-weight: 500;
   cursor: pointer;
   text-transform: uppercase;
   box-shadow: 0 1px 1px rgba(0,0,0,0.04);
   transition: background 0.1s, border 0.1s;
+  max-width: 48px;
 }
 .key:active {
   background: #ccc;
 }
 .key.big {
-  width: 70px;
+  flex: 2 1 0;
+  max-width: 90px;
+  font-size: 3.5vw;
+}
+@media (max-width: 600px) {
+  #keyboard {
+    max-width: 100vw;
+    gap: 3px;
+  }
+  .keyboard-row {
+    gap: 3px;
+  }
+  .key {
+    height: 36px;
+    font-size: 5vw;
+    max-width: 36px;
+    border-radius: 4px;
+  }
+  .key.big {
+    max-width: 60px;
+    font-size: 4vw;
+  }
 }
 #status { margin-top: 1rem; font-weight: bold; }
