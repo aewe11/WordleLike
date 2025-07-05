@@ -135,19 +135,22 @@ function updateCurrentRow() {
 function renderKeyboard() {
   const keyboard = document.getElementById("keyboard");
   keyboard.innerHTML = "";
-  const keys = [
-    ..."QWERTYUIOP",
-    "ENTER",
-    ..."ASDFGHJKL",
-    "BACKSPACE",
-    ..."ZXCVBNM"
+  const rows = [
+    [..."QWERTYUIOP"],
+    ["ENTER", ..."ASDFGHJKL", "BACKSPACE"],
+    [..."ZXCVBNM"]
   ];
-  keys.forEach(k => {
-    const btn = document.createElement("button");
-    btn.textContent = k === "BACKSPACE" ? "⌫" : k;
-    btn.className = "key" + (k.length > 1 ? " big" : "");
-    btn.onclick = () => handleKey(k);
-    keyboard.appendChild(btn);
+  rows.forEach(row => {
+    const rowDiv = document.createElement("div");
+    rowDiv.className = "keyboard-row";
+    row.forEach(k => {
+      const btn = document.createElement("button");
+      btn.textContent = k === "BACKSPACE" ? "⌫" : k;
+      btn.className = "key" + (k.length > 1 ? " big" : "");
+      btn.onclick = () => handleKey(k);
+      rowDiv.appendChild(btn);
+    });
+    keyboard.appendChild(rowDiv);
   });
 }
 
