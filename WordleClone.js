@@ -135,23 +135,50 @@ function updateCurrentRow() {
 function renderKeyboard() {
   const keyboard = document.getElementById("keyboard");
   keyboard.innerHTML = "";
+  // Standard QWERTY layout
   const rows = [
     [..."QWERTYUIOP"],
-    ["ENTER", ..."ASDFGHJKL", "BACKSPACE"],
+    [..."ASDFGHJKL"],
     [..."ZXCVBNM"]
   ];
-  rows.forEach(row => {
+  rows.forEach((row, idx) => {
     const rowDiv = document.createElement("div");
     rowDiv.className = "keyboard-row";
+    // Add left spacer for third row
+    if (idx === 2) {
+      const spacer = document.createElement("div");
+      spacer.style.width = "32px";
+      rowDiv.appendChild(spacer);
+    }
     row.forEach(k => {
       const btn = document.createElement("button");
-      btn.textContent = k === "BACKSPACE" ? "⌫" : k;
-      btn.className = "key" + (k.length > 1 ? " big" : "");
+      btn.textContent = k;
+      btn.className = "key";
       btn.onclick = () => handleKey(k);
       rowDiv.appendChild(btn);
     });
+    // Add right spacer for third row
+    if (idx === 2) {
+      const spacer = document.createElement("div");
+      spacer.style.width = "32px";
+      rowDiv.appendChild(spacer);
+    }
     keyboard.appendChild(rowDiv);
   });
+  // Add Enter and Backspace below as wide buttons
+  const controlRow = document.createElement("div");
+  controlRow.className = "keyboard-row";
+  const enterBtn = document.createElement("button");
+  enterBtn.textContent = "ENTER";
+  enterBtn.className = "key big";
+  enterBtn.onclick = () => handleKey("ENTER");
+  controlRow.appendChild(enterBtn);
+  const backBtn = document.createElement("button");
+  backBtn.textContent = "⌫";
+  backBtn.className = "key big";
+  backBtn.onclick = () => handleKey("BACKSPACE");
+  controlRow.appendChild(backBtn);
+  keyboard.appendChild(controlRow);
 }
 
 // Listen for real keyboard
