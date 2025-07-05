@@ -31,6 +31,14 @@ function renderBoard() {
         } else {
           cell.classList.add("gray");
         }
+      } else {
+        // Only add click for empty cell in current row
+        if (row === guesses.length && !letter) {
+          cell.style.cursor = "pointer";
+          cell.onclick = () => {
+            showNativeKeyboard();
+          };
+        }
       }
 
       rowEl.appendChild(cell);
@@ -124,31 +132,48 @@ function updateCurrentRow() {
   }
 }
 
+// Hide the on-screen keyboard by default, use native keyboard
 function renderKeyboard() {
   const keyboard = document.getElementById("keyboard");
-  const keys = [
-    ..."QWERTYUIOP", 
-    "ENTER", 
-    ..."ASDFGHJKL", 
-    "BACKSPACE", 
-    ..."ZXCVBNM"
-  ];
-
-  keys.forEach(k => {
-    const btn = document.createElement("button");
-    btn.textContent = k === "BACKSPACE" ? "⌫" : k;
-    btn.className = "key" + (k.length > 1 ? " big" : "");
-    btn.onclick = () => handleKey(k);
-    keyboard.appendChild(btn);
-  });
+  keyboard.style.display = "none";
 }
 
-// Listen for real keyboard
+function showNativeKeyboard() {
+  const input = document.getElementById("nativeInput");
+  input.value = currentGuess;
+  input.style.opacity = 1;
+  input.style.pointerEvents = "auto";
+  input.focus();
+}
+
+// Hide native keyboard input after use
+function hideNativeKeyboard() {
+  const input = document.getElementById("nativeInput");
+  input.blur();
+  input.style.opacity = 0;
+  input.style.pointerEvents = "none";
+}
 
 document.addEventListener("keydown", e => {
+// Listen for real keyboard
+document.addEventListener("keydown", e => {
+  if (document.activeElement === document.getElementById("nativeInput")) return;
   if (e.key === "Enter") handleKey("ENTER");
   else if (e.key === "Backspace") handleKey("BACKSPACE");
   else if (/^[a-zA-Z]$/.test(e.key)) handleKey(e.key.toUpperCase());
+});
+
+// Listen for input from the hidden native input
+document.addEventListener("DOMContentLoaded", function() {
+  const nativeInput = document.getElementById("nativeInput");
+  nativeInput.addEventListener("input", e => {
+    let val = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+    if (val.length > 5) val = val.slice(0, 5);
+    currentGuess = val;
+    renderBoard();
+    updateCurrentRow();
+  });
+  nativeInput.addEventListener("blur", hideNativeKeyboard);
 });
 
 
