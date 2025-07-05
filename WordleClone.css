@@ -24,16 +24,40 @@ body {
 .green { background-color: #6aaa64; color: white; }
 .yellow { background-color: #c9b458; color: white; }
 .gray { background-color: #787c7e; color: white; }
-.keyboard { margin-top: 1rem; text-align: center; }
+#keyboard {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.keyboard-row {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
 .key {
-  display: inline-block;
-  margin: 2px;
-  padding: 10px 12px;
-  background: #ddd;
-  border: none;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
   cursor: pointer;
   text-transform: uppercase;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+  transition: background 0.1s, border 0.1s;
 }
-.key.big { width: 70px; }
+.key:active {
+  background: #ccc;
+}
+.key.big {
+  width: 70px;
+}
 #status { margin-top: 1rem; font-weight: bold; }
